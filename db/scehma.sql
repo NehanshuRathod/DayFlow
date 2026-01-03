@@ -96,3 +96,46 @@ CREATE TABLE employee_documents (
 );
 
 CREATE INDEX idx_documents_employee ON employee_documents(employee_id);
+
+-- 8. Company
+CREATE TABLE company (
+    company_id      BIGSERIAL PRIMARY KEY,
+    name            VARCHAR(200) NOT NULL,
+    prefix          VARCHAR(5) NOT NULL,              -- For employee ID generation
+    logo_url        VARCHAR(500),
+    created_at      TIMESTAMP DEFAULT now()
+);
+
+-- 9. Leave Type Enum
+CREATE TYPE leave_type_enum AS ENUM ('paid', 'sick', 'unpaid');
+
+-- Add leave_type column to leave_requests
+ALTER TABLE leave_requests ADD COLUMN leave_type leave_type_enum DEFAULT 'paid';
+
+-- 10. Salary Structure
+CREATE TABLE salary_structure (
+    id              BIGSERIAL PRIMARY KEY,
+    employee_id     BIGINT UNIQUE REFERENCES employees(employee_id) ON DELETE CASCADE,
+    monthly_wage    NUMERIC(12,2) NOT NULL,
+    basic_percent   NUMERIC(5,2) DEFAULT 50.00,
+    hra_percent     NUMERIC(5,2) DEFAULT 50.00,       -- % of basic
+    da_percent      NUMERIC(5,2) DEFAULT 4.17,
+    bonus_percent   NUMERIC(5,2) DEFAULT 8.33,
+    lta_percent     NUMERIC(5,2) DEFAULT 8.33,
+    pf_percent      NUMERIC(5,2) DEFAULT 12.00,
+    prof_tax        NUMERIC(12,2) DEFAULT 200.00,
+    updated_at      TIMESTAMP DEFAULT now()
+);
+
+-- 11. Extended Employee Fields
+ALTER TABLE employees ADD COLUMN IF NOT EXISTS about TEXT;
+ALTER TABLE employees ADD COLUMN IF NOT EXISTS skills TEXT[];
+ALTER TABLE employees ADD COLUMN IF NOT EXISTS certifications TEXT[];
+ALTER TABLE employees ADD COLUMN IF NOT EXISTS nationality VARCHAR(100);
+ALTER TABLE employees ADD COLUMN IF NOT EXISTS marital_status VARCHAR(50);
+ALTER TABLE employees ADD COLUMN IF NOT EXISTS pan_number VARCHAR(20);
+ALTER TABLE employees ADD COLUMN IF NOT EXISTS uan_number VARCHAR(20);
+ALTER TABLE employees ADD COLUMN IF NOT EXISTS ifsc_code VARCHAR(20);
+ALTER TABLE employees ADD COLUMN IF NOT EXISTS emp_code VARCHAR(20);
+ALTER TABLE employees ADD COLUMN IF NOT EXISTS bank_name VARCHAR(100);
+

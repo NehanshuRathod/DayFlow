@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DayFlow - Dashboard</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body class="bg-gray-100 min-h-screen">
+    <nav class="bg-blue-600 text-white p-4 flex justify-between items-center">
+        <h1 class="text-xl font-bold">DayFlow HRMS</h1>
+        <div class="flex items-center gap-4">
+            <span id="user-name">Loading...</span>
+            <button id="logout-btn" class="bg-blue-800 px-3 py-1 rounded hover:bg-blue-700">Logout</button>
+        </div>
+    </nav>
+
+    <div class="container mx-auto p-4 flex flex-col md:flex-row gap-6">
+        <!-- Sidebar -->
+        <aside class="w-full md:w-1/4 bg-white p-4 rounded shadow-md">
+            <h2 class="text-lg font-bold mb-4">Actions</h2>
+            <div id="check-in-widget" class="text-center p-4 bg-gray-50 rounded mb-4">
+                <p id="clock" class="text-2xl font-mono mb-2">00:00:00</p>
+                <button id="check-in-btn"
+                    class="w-full bg-green-500 text-white py-2 rounded mb-2 hover:bg-green-600">Check In</button>
+                <button id="check-out-btn"
+                    class="w-full bg-red-500 text-white py-2 rounded hidden hover:bg-red-600">Check Out</button>
+                <p id="status-msg" class="text-sm mt-2 text-gray-600"></p>
+            </div>
+
+            <button id="apply-leave-btn"
+                class="w-full bg-purple-500 text-white py-2 rounded mb-2 hover:bg-purple-600">Apply Leave</button>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="w-full md:w-3/4 bg-white p-4 rounded shadow-md">
+            <div class="flex border-b mb-4">
+                <button class="tab-btn px-4 py-2 border-b-2 border-blue-500 font-bold"
+                    data-tab="employees">Employees</button>
+                <button class="tab-btn px-4 py-2 text-gray-600 hover:text-blue-500"
+                    data-tab="attendance">Attendance</button>
+                <button class="tab-btn px-4 py-2 text-gray-600 hover:text-blue-500" data-tab="leaves">Leaves</button>
+            </div>
+
+            <!-- Employees Tab -->
+            <div id="tab-employees" class="tab-content">
+                <div class="flex justify-between mb-4">
+                    <h2 class="text-lg font-bold">Employee Directory</h2>
+                    <button id="add-employee-btn" class="bg-green-500 text-white px-3 py-1 rounded hidden">New
+                        Employee</button>
+                </div>
+                <div id="employee-list" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Employee cards go here -->
+                </div>
+            </div>
+
+            <!-- Attendance Tab -->
+            <div id="tab-attendance" class="tab-content hidden">
+                <h2 class="text-lg font-bold mb-4">Attendance History</h2>
+                <table class="w-full border-collapse">
+                    <thead>
+                        <tr class="bg-gray-100 text-left">
+                            <th class="p-2 border">Date</th>
+                            <th class="p-2 border">Check In</th>
+                            <th class="p-2 border">Check Out</th>
+                            <th class="p-2 border">Work Hours</th>
+                        </tr>
+                    </thead>
+                    <tbody id="attendance-list">
+                        <!-- Attendance rows go here -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Leaves Tab -->
+            <div id="tab-leaves" class="tab-content hidden">
+                <h2 class="text-lg font-bold mb-4">Leave Requests</h2>
+                <div id="leave-list" class="space-y-4">
+                    <!-- Leave items go here -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modals -->
+    <!-- Apply Leave Modal -->
+    <div id="leave-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center">
+        <div class="bg-white p-6 rounded max-w-md w-full">
+            <h3 class="text-lg font-bold mb-4">Apply for Leave</h3>
+            <form id="leave-form" class="space-y-3">
+                <select id="leave-type" class="w-full border p-2 rounded">
+                    <option value="paid">Paid Leave</option>
+                    <option value="sick">Sick Leave</option>
+                    <option value="unpaid">Unpaid Leave</option>
+                </select>
+                <div class="flex gap-2">
+                    <input type="date" id="start-date" class="w-full border p-2 rounded" required>
+                    <input type="date" id="end-date" class="w-full border p-2 rounded" required>
+                </div>
+                <textarea id="leave-desc" placeholder="Reason" class="w-full border p-2 rounded" required></textarea>
+                <div class="flex justify-end gap-2">
+                    <button type="button" id="close-leave-modal" class="bg-gray-300 px-4 py-2 rounded">Cancel</button>
+                    <button type="submit" class="bg-purple-500 text-white px-4 py-2 rounded">Apply</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+
+</html>

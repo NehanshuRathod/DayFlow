@@ -1,0 +1,10 @@
+/* Minimal Styles using Tailwind CDN for simplicity in dev, or just basic CSS if offline */
+@import url('https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css');
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.hidden {
+    display: none;
+}
